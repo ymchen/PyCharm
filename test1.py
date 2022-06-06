@@ -7,23 +7,21 @@
 # @file_path:  D:\ChenYiMin\TJFJ\PYTHON_EXP1\PYTHON_3_LEARN\python队列\队列测试2.py
 # @Last Modified by:   YiMin-Chan
 # @Last Modified time: 2022-06-06 10:47:33
+import time
 from multiprocessing import Process, Queue
-import os, time, random
 
-# 写数据进程执行的代码:
-def write(q):
-    print('Process to write: %s' % os.getpid())
-    for value in ['A', 'B', 'C']:
-        print('Put %s to queue...' % value)
-        q.put(value)
-        time.sleep(random.random())
 
-# 读数据进程执行的代码:
-def read(q):
-    print('Process to read: %s' % os.getpid())
+def write_to_queue(queue):
+    for index in range(5):
+        print('write {} to {}'.format(str(index), queue))
+        queue.put(index)
+        time.sleep(1)
+
+
+def read_from_queue(queue):
     while True:
-        value = q.get(True)
-        print('Get %s from queue.' % value)
+        result = queue.get(True)
+        print('get {} from {}'.format(str(result), queue))
 
 if __name__=='__main__':
     # 父进程创建Queue，并传给各个子进程：
